@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Bitcoin",
+    "symbol": "BTC",
+    "ticker": "BTCUSDT",
+    "target_allocation": 0.25
+  },
+  {
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "ticker": "ETHUSDT",
+    "target_allocation": 0.25
+  },
+  {
+    "name": "Dogecoin",
+    "symbol": "DOGE",
+    "ticker": "DOGEUSDT",
+    "target_allocation": 0.5
+  }
+]
