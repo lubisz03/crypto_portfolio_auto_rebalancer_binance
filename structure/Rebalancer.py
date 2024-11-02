@@ -73,14 +73,12 @@ class Rebalancer:
                 try:
                     pos_token.sell(self.__client, neg_buy_amount)
                 except Exception as e:
-                    print(f"Error selling {pos_token.ticker}: {e}")
-                    return
+                    raise ValueError(f"Error selling {pos_token.ticker}: {e}")
 
                 try:
                     neg_token.buy(self.__client, neg_buy_amount)
                 except Exception as e:
-                    print(f"Error buying {neg_token.ticker}: {e}")
-                    return
+                    raise ValueError(f"Error buying {neg_token.ticker}: {e}")
 
                 print(
                     f"Rebalanced {neg_token.ticker} by buying {neg_buy_amount}. Updated divergence.")
