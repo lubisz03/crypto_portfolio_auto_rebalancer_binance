@@ -1,24 +1,11 @@
-from dotenv import load_dotenv
-import os
-from binance.spot import Spot
-from structure.Rebalancer import Rebalancer
-import json
-
-
-def load_portfolio(filename):
-    with open(filename, 'r') as file:
-        return json.load(file)
+from structure import Rebalancer
+from client import initialize_client
 
 
 def run():
-    load_dotenv()
-    client = Spot(base_url="https://api4.binance.com", api_key=os.getenv('BINANCE_API_KEY'),
-                  api_secret=os.getenv('BINANCE_API_SECRET'))
-
-    portfolio_data = load_portfolio('./data/data.json')
-    rebalancer = Rebalancer(client)
-    rebalancer.create(portfolio_data)
-    rebalancer.rebalance()
+    client = initialize_client()
+    rebalancer = Rebalancer(client, './data/data.json')
+    rebalancer.run()
 
 
 if __name__ == '__main__':

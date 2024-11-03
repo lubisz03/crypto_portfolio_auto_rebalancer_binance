@@ -11,32 +11,12 @@ class Token:
         self.__divergence: float = 0.0
 
     @property
-    def name(self) -> str:
-        return self.__name
-
-    @property
-    def symbol(self) -> str:
-        return self.__symbol
-
-    @property
     def ticker(self) -> str:
         return self.__ticker
 
     @property
     def target_allocation(self) -> float:
         return self.__target_allocation
-
-    @property
-    def current_allocation(self) -> float:
-        return self.__current_allocation
-
-    @property
-    def price(self) -> float:
-        return self.__price
-
-    @property
-    def quantity(self) -> float:
-        return self.__quantity
 
     @property
     def value(self) -> float:
@@ -52,7 +32,7 @@ class Token:
             self.__divergence = self.__current_allocation - self.__target_allocation
 
     def __update_value(self):
-        self.__value = self.price * self.quantity
+        self.__value = self.__price * self.__quantity
 
     def __update_quantity(self, binance_client):
         self.__quantity = float(binance_client.user_asset(
@@ -67,14 +47,17 @@ class Token:
         self.__update_quantity(binance_client)
         self.__update_value()
 
-    def buy(self, binance_client, amount):
+    def get_trade_fee(self, binance_client):
+        return binance_client.trade_fee(symbol=self.__ticker).get('taker', 0.001)
+
+    def buy(self, binance_client, amount: float):
         try:
             binance_client.new_order_test(
                 symbol=self.__ticker, type="MARKET", side="BUY", quoteOrderQty=amount)
         except Exception as e:
             raise ValueError(f'Error buying {self.__ticker}: {e}')
 
-    def sell(self, binance_client, amount):
+    def sell(self, binance_client, amount: float):
         try:
             binance_client.new_order_test(
                 symbol=self.__ticker, type="MARKET", side="SELL", quoteOrderQty=amount)
