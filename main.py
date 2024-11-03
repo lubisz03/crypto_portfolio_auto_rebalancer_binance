@@ -10,3 +10,9 @@ def run():
 
 if __name__ == '__main__':
     run()
+
+
+# TODO 1: Develop custom exceptions
+# TODO 2: Develop tests
+# TODO 3: Develop logging
+# TODO 4: Develop a robust error handling

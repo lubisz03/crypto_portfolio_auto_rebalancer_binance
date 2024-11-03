@@ -3,6 +3,7 @@ from typing import List
 import schedule
 import time
 import json
+import math
 
 
 class Rebalancer:
@@ -49,7 +50,7 @@ class Rebalancer:
             token for token in self.__holdings if token.divergence > self.__threshold * token.target_allocation
         ]
         negative_divergences = [
-            token for token in self.__holdings if token.divergence < -self.threshold * token.target_allocation
+            token for token in self.__holdings if token.divergence < -self.__threshold * token.target_allocation
         ]
 
         positive_divergences.sort(key=lambda x: x.divergence, reverse=True)
@@ -74,7 +75,7 @@ class Rebalancer:
 
                 try:
                     neg_token.buy(self.__client, neg_buy_amount *
-                                  (1 - pos_token.get_trade_fee(self.__client)))
+                                  math.floor((1 - pos_token.get_trade_fee(self.__client)) * 100 / 100))
                 except Exception as e:
                     raise ValueError(f"Error buying {neg_token.ticker}: {e}")
 
